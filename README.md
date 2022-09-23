@@ -140,3 +140,45 @@ https://stackoverflow.com/questions/6920302/how-to-pass-arguments-to-a-button-co
 
 ```
 
+# application path
+
+pyisntaller official get path method
+
+https://stackoverflow.com/questions/404744/determining-application-path-in-a-python-exe-generated-by-pyinstaller
+
+https://pyinstaller.org/en/stable/runtime-information.html
+
+```python
+#!/usr/bin/python3
+import sys, os
+if getattr(sys, 'frozen', False):
+    # If the application is run as a bundle, the PyInstaller bootloader
+    # extends the sys module by a flag frozen=True and sets the app 
+    # path into variable _MEIPASS'.
+    application_path = sys._MEIPASS
+else:
+    application_path = os.path.dirname(os.path.abspath(__file__))
+
+```
+
+change simple http server directory
+
+https://stackoverflow.com/questions/31251524/python-simplehttpserver-change-service-directory
+
+```python
+import http.server
+import socketserver
+
+PORT = 8000
+DIRECTORY = "web"
+
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=DIRECTORY, **kwargs)
+
+
+with socketserver.TCPServer(("", PORT), Handler) as httpd:
+    print("serving at port", PORT)
+    httpd.serve_forever()
+```

@@ -6,7 +6,6 @@ import socket
 from http.server import HTTPServer, SimpleHTTPRequestHandler, BaseHTTPRequestHandler
 import http.server
 import http.server
-import os
 
 import multiprocessing
 
@@ -23,15 +22,42 @@ import psutil
 import threading
 
 
-web_dir = os.path.join(os.path.dirname(__file__), './')
-os.chdir(web_dir)
+#web_dir = os.path.join(os.path.dirname(__file__), './')
+#os.chdir(web_dir)
+
+import sys, os
+
+################################
+##### Windows or Linux #########
+################################
+# change uncomment the appropriate build_for when building
+#build_for ="linux"
+build_for = "linux"
+if build_for == "linux":
+	window = Tk()
+elif build_for == "windows":
+	window = HdpiTk()
+
+global application_path
+
+if getattr(sys, 'frozen', False):
+	# If the application is run as a bundle, the PyInstaller bootloader
+	# extends the sys module by a flag frozen=True and sets the app 
+	# path into variable _MEIPASS'.
+	#application_path = sys._MEIPASS
+	application_path = os.path.dirname(sys.executable)
+else:
+	application_path = os.path.dirname(os.path.abspath(__file__))
+
 global http_server_process
 global ftp_server_process
 
+class MyHttpHandler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=application_path, **kwargs)
 
 
-
-def httpd(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler):
+def httpd(server_class=HTTPServer, handler_class=MyHttpHandler):
 	server_address = ('', 8000)
 	httpd = server_class(server_address, handler_class)
 	httpd.serve_forever()
@@ -84,38 +110,49 @@ def on_closing():
 		window.destroy()
 
 network_info = psutil.net_if_addrs()
+#print(network_info)
 network_list = []
 interface_details = ""
-for interface in network_info:
-	temp_string = interface+" : "+network_info[interface][1][1] +"\n"
-	interface_details = interface_details + temp_string
-	network_list.append([interface,network_info[interface][1][1]])
+if build_for == "linux":
+	for interface in network_info:
+		temp_string = interface+": "+network_info[interface][0][1] +"\n"
+		interface_details = interface_details + temp_string
+		network_list.append([interface,network_info[interface][0][1]])
+elif build_for == "windows":
+	for interface in network_info:
+		temp_string = interface+": "+network_info[interface][1][1] +"\n"
+		interface_details = interface_details + temp_string
+		network_list.append([interface,network_info[interface][1][1]])
 
 
-IPAddr1=network_list[0][1]
-#network_label = Entry(window, text=interface_details,  justify=RIGHT)
+if build_for == "linux":
+	IPAddr1=network_list[1][1]
+	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
 
-instruction_text = """
-Accessing HTTP server in browser: http://%s:8000
-Accessing FTP server:
-Username: user123
-Password: pass123
-Port: 2121
-Command in Linux: ftp %s 2121
-""" % (IPAddr1,IPAddr1)
+	instruction_text = """
+	Accessing HTTP server in browser: http://%s:8000
+	Accessing FTP server:
+	Username: user123
+	Password: pass123
+	Port: 2121
+	Command in Linux: ftp %s 2121
+	""" % (IPAddr1,IPAddr1)
+elif build_for == "windows":
+	IPAddr1=network_list[0][1]
+	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
+
+	instruction_text = """
+	Accessing HTTP server in browser: http://%s:8000
+	Accessing FTP server:
+	Username: user123
+	Password: pass123
+	Port: 2121
+	Command in Linux: ftp %s 2121
+	""" % (IPAddr1,IPAddr1)
+
 
 
 if __name__ == "__main__":
-	################################
-	##### Windows or Linux #########
-	################################
-	# change uncomment the appropriate build_for when building
-	#build_for ="linux"
-	build_for = "windows"
-	if build_for == "linux":
-		window = Tk()
-	elif build_for == "windows":
-		window = HdpiTk()
 	window.title('Python Quick Network Tool - DJENGINEER')
 	window.geometry("550x450")
 	instruction_text_widget = Text(window, height=1, width=100)
@@ -124,7 +161,7 @@ if __name__ == "__main__":
 	instruction_text_widget.tag_configure('tag-left', justify='left')
 	instruction_text_widget.pack(fill='both', expand=True,padx=20, pady=20)
 	instruction_text_widget.insert(END, interface_details,"tag-right")
-	instruction_text_widget.insert(END, instruction_text)
+	instruction_text_widget.insert(END, instruction_text,"tag-left")
 	start_http = Button(window, text="start HTTP Server (port 8000)",command=start_http_button)
 	stop_http = Button(window, text="stop HTTP Server",command=stop_http_button)
 	start_ftp = Button(window, text="start FTP Server user123:pass123 port 2121",command=start_ftp_button)
