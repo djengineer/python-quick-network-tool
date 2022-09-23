@@ -1,6 +1,9 @@
 # python-quick-network-tool
 python-quick-network-tool
+
 Author: DJENGINEER
+
+For when you need quick **HTTP** and **FTP** servers for file transfers.
 
 ![python quick network tool](https://github.com/djengineer/python-quick-network-tool/blob/main/screenshot.jpg?raw=true)
 
