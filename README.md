@@ -12,14 +12,14 @@ pyinstaller -F --noconsole app.py -n py-quick-network-tool
 
 # DEV STATUS
 
-Python script app.py works well in both windows and linux.
+Python script and binaries app.py works well in both windows and linux.
 
-Binary works well with linux. Not working properly in windows.
 
-Change from Tkinter to QTPY next...
 
 # Binaries MD5 Checksum
-py-quick-network-tool-ubuntu-64.bin: 6b6a8335e54ebba519a63142d2c38539
+py-quick-network-tool-ubuntu-64.bin: 03d9ae83ba0d13b5e0bea862f0d32c01
+
+py-quick-network-tool-win-64.exe: a4de21c89c964938c0dfd8df75f996f8
 
 # installation
 

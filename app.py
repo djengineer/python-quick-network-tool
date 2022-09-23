@@ -32,7 +32,7 @@ import sys, os
 ################################
 # change uncomment the appropriate build_for when building
 #build_for ="linux"
-build_for = "windows"
+build_for = "linux"
 if build_for == "linux":
 	window = Tk()
 elif build_for == "windows":
