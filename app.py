@@ -55,8 +55,8 @@ global http_status
 global ftp_status
 http_server_process = None
 ftp_server_process = None
-http_status = "Down"
-ftp_status = "Down"
+http_status = "STOPPED"
+ftp_status = "STOPPED"
 
 class MyHttpHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -78,7 +78,7 @@ def start_http_button():
 		# Name error means not defined. start a new server.
 		http_server_process = multiprocessing.Process(target=httpd,name='HTTPprocess')
 		http_server_process.start()
-		http_status = "UP"
+		http_status = "STARTED"
 		print("HTTPServer process started")
 
 def stop_http_button():
@@ -90,7 +90,7 @@ def stop_http_button():
 	else:
 		http_server_process.terminate()
 		http_server_process = None
-		http_status = "Down"
+		http_status = "STOPPED"
 		print("HTTPServer process terminated")
 
 def ftpd():
@@ -112,7 +112,7 @@ def start_ftp_button():
 		ftp_server_process.start()
 		print("FTP Server process started")
 		global ftp_status
-		ftp_status = "UP"
+		ftp_status = "STARTED"
 
 def stop_ftp_button():
 	global ftp_server_process
@@ -123,7 +123,7 @@ def stop_ftp_button():
 	else:
 		ftp_server_process.terminate()
 		ftp_server_process = None
-		ftp_status = "Down"
+		ftp_status = "STOPPED"
 		print("FTPServer process terminated")
 
 
@@ -180,16 +180,9 @@ elif build_for == "windows":
 window.title('Python Quick Network Tool - DJENGINEER')
 window.geometry("550x450")
 
-def update_text(instruction_text_widget):
-	global ftp_status
-	global http_status
-	status_text = "\nHTTP Server: %s\nFTP Server: %s"%(http_status,ftp_status)
-	instruction_text_widget.delete("1.0", "end")  # if you want to remove the old data
-	instruction_text_widget.insert(END, interface_details,"tag-right")
-	instruction_text_widget.insert(END, instruction_text,"tag-left")
-	instruction_text_widget.insert(END, status_text,"tag-left")
 
-status_text = "\nHTTP Server: %s\nFTP Server: %s"%(http_status,ftp_status)
+
+
 instruction_text_widget = Text(window, height=1, width=100)
 instruction_text_widget.tag_configure('tag-center', justify='center')
 instruction_text_widget.tag_configure('tag-right', justify='right')
@@ -197,11 +190,19 @@ instruction_text_widget.tag_configure('tag-left', justify='left')
 instruction_text_widget.pack(fill='both', expand=True,padx=20, pady=20,anchor="w")
 instruction_text_widget.insert(END, interface_details,"tag-right")
 instruction_text_widget.insert(END, instruction_text,"tag-left")
-instruction_text_widget.insert(END, status_text,"tag-left")
 
+global status_text
+status_text = "HTTP Server: %s\nFTP Server: %s"%(http_status,ftp_status)
+status_text_widget = Text(window, height=3, width=100)
+status_text_widget.pack(fill='both',expand=False,padx=20, pady=20,anchor="w")
+status_text_widget.insert(END, status_text,"tag-left")
 
-instruction_text_widget.after(100, update_text(instruction_text_widget))
-
+def update_status():
+	global status_text_widget
+	status_text_widget.delete('1.0', END)
+	status_text = "HTTP Server: %s\nFTP Server: %s"%(http_status,ftp_status)
+	status_text_widget.insert(END, status_text,"tag-left")
+	window.after(1000, update_status) # every second...
 
 start_http = Button(window, text="start HTTP Server (port 8000)",command=start_http_button)
 stop_http = Button(window, text="stop HTTP Server",command=stop_http_button)
@@ -219,4 +220,5 @@ if __name__ == "__main__":
 	if sys.platform.startswith('win'):
 		# On Windows calling this function is necessary.
 		multiprocessing.freeze_support()
+	update_status()
 	window.mainloop()
