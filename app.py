@@ -32,7 +32,7 @@ import sys, os
 ################################
 # change uncomment the appropriate build_for when building
 #build_for ="linux"
-build_for = "linux"
+build_for = "windows"
 if build_for == "linux":
 	window = Tk()
 elif build_for == "windows":
@@ -141,34 +141,29 @@ elif build_for == "windows":
 	IPAddr1=network_list[0][1]
 	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
 
-	instruction_text = """
-	Accessing HTTP server in browser: http://%s:8000
-	Accessing FTP server:
-	Username: user123
-	Password: pass123
-	Port: 2121
-	Command in Linux: ftp %s 2121
-	""" % (IPAddr1,IPAddr1)
+	instruction_text = """\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 2121\nCommand in Linux: ftp %s 2121""" % (IPAddr1,IPAddr1)
+
+
+window.title('Python Quick Network Tool - DJENGINEER')
+window.geometry("550x450")
+instruction_text_widget = Text(window, height=1, width=100)
+instruction_text_widget.tag_configure('tag-center', justify='center')
+instruction_text_widget.tag_configure('tag-right', justify='right')
+instruction_text_widget.tag_configure('tag-left', justify='left')
+instruction_text_widget.pack(fill='both', expand=True,padx=20, pady=20,anchor="w")
+instruction_text_widget.insert(END, interface_details,"tag-right")
+instruction_text_widget.insert(END, instruction_text,"tag-left")
+start_http = Button(window, text="start HTTP Server (port 8000)",command=start_http_button)
+stop_http = Button(window, text="stop HTTP Server",command=stop_http_button)
+start_ftp = Button(window, text="start FTP Server user123:pass123 port 2121",command=start_ftp_button)
+stop_ftp = Button(window, text="stop FTP server",command=stop_ftp_button)
+start_http.pack()
+stop_http.pack()
+start_ftp.pack()
+stop_ftp.pack()
+window.protocol("WM_DELETE_WINDOW", on_closing)
 
 
 
-if __name__ == "__main__":
-	window.title('Python Quick Network Tool - DJENGINEER')
-	window.geometry("550x450")
-	instruction_text_widget = Text(window, height=1, width=100)
-	instruction_text_widget.tag_configure('tag-center', justify='center')
-	instruction_text_widget.tag_configure('tag-right', justify='right')
-	instruction_text_widget.tag_configure('tag-left', justify='left')
-	instruction_text_widget.pack(fill='both', expand=True,padx=20, pady=20)
-	instruction_text_widget.insert(END, interface_details,"tag-right")
-	instruction_text_widget.insert(END, instruction_text,"tag-left")
-	start_http = Button(window, text="start HTTP Server (port 8000)",command=start_http_button)
-	stop_http = Button(window, text="stop HTTP Server",command=stop_http_button)
-	start_ftp = Button(window, text="start FTP Server user123:pass123 port 2121",command=start_ftp_button)
-	stop_ftp = Button(window, text="stop FTP server",command=stop_ftp_button)
-	start_http.pack()
-	stop_http.pack()
-	start_ftp.pack()
-	stop_ftp.pack()
-	window.protocol("WM_DELETE_WINDOW", on_closing)
+if __name__ == "__main__":	
 	window.mainloop()
