@@ -1,3 +1,7 @@
+# Windows or Linux
+
+Uncomment "build_for" when building for windows or linux.
+The difference is windows will use the https://pypi.org/project/hdpitkinter/ for proper scaling to avoid blur text. PSUTIL list sequence is also different when listing network interfaces
 
 # installation
 
