@@ -1,6 +1,14 @@
 # python-quick-network-tool
 python-quick-network-tool
 
+# Windows or Linux
+
+Uncomment "build_for" when building for windows or linux.
+The difference is windows will use the https://pypi.org/project/hdpitkinter/ for proper scaling to avoid blur text.
+
+# Building
+
+pyinstaller -F --noconsole app.py -n py-quick-network-tool
 
 # installation
 
