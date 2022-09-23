@@ -32,7 +32,7 @@ import sys, os
 ################################
 # change uncomment the appropriate build_for when building
 #build_for ="linux"
-build_for = "windows"
+build_for = "linux"
 if build_for == "linux":
 	window = Tk()
 elif build_for == "windows":
@@ -128,20 +128,12 @@ elif build_for == "windows":
 if build_for == "linux":
 	IPAddr1=network_list[1][1]
 	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
+	instruction_text = "\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 2121\nCommand in Linux: ftp %s 2121" % (IPAddr1,IPAddr1)
 
-	instruction_text = """
-	Accessing HTTP server in browser: http://%s:8000
-	Accessing FTP server:
-	Username: user123
-	Password: pass123
-	Port: 2121
-	Command in Linux: ftp %s 2121
-	""" % (IPAddr1,IPAddr1)
 elif build_for == "windows":
 	IPAddr1=network_list[0][1]
 	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
-
-	instruction_text = """\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 2121\nCommand in Linux: ftp %s 2121""" % (IPAddr1,IPAddr1)
+	instruction_text = "\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 2121\nCommand in Linux: ftp %s 2121" % (IPAddr1,IPAddr1)
 
 
 window.title('Python Quick Network Tool - DJENGINEER')

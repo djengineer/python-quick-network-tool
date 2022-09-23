@@ -10,6 +10,17 @@ The difference is windows will use the https://pypi.org/project/hdpitkinter/ for
 
 pyinstaller -F --noconsole app.py -n py-quick-network-tool
 
+# DEV STATUS
+
+Python script app.py works well in both windows and linux.
+
+Binary works well with linux. Not working properly in windows.
+
+Change from Tkinter to QTPY next...
+
+# Binaries MD5 Checksum
+py-quick-network-tool-ubuntu-64.bin: 6b6a8335e54ebba519a63142d2c38539
+
 # installation
 
 https://www.geeksforgeeks.org/how-to-install-tkinter-in-windows/
