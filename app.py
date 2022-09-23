@@ -32,7 +32,7 @@ import sys, os
 ################################
 # change uncomment the appropriate build_for when building
 #build_for ="linux"
-build_for = "linux"
+build_for = "windows"
 if build_for == "linux":
 	window = Tk()
 elif build_for == "windows":
@@ -51,6 +51,12 @@ else:
 
 global http_server_process
 global ftp_server_process
+global http_status
+global ftp_status
+http_server_process = None
+ftp_server_process = None
+http_status = "Down"
+ftp_status = "Down"
 
 class MyHttpHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -64,32 +70,61 @@ def httpd(server_class=HTTPServer, handler_class=MyHttpHandler):
 
 def start_http_button():
 	global http_server_process
-	http_server_process = multiprocessing.Process(target=httpd,name='HTTPprocess')
-	http_server_process.start()
-	print("HTTPServer process started")
+	global http_status
+	if http_server_process != None:
+		print("HTTP server already started.")
+		pass
+	elif http_server_process == None:
+		# Name error means not defined. start a new server.
+		http_server_process = multiprocessing.Process(target=httpd,name='HTTPprocess')
+		http_server_process.start()
+		http_status = "UP"
+		print("HTTPServer process started")
 
 def stop_http_button():
 	global http_server_process
-	http_server_process.terminate()
-	print("HTTPServer process terminated")
+	global http_status
+	if http_server_process == None:
+		print("No server to stop.")
+		pass
+	else:
+		http_server_process.terminate()
+		http_server_process = None
+		http_status = "Down"
+		print("HTTPServer process terminated")
 
 def ftpd():
     authorizer = DummyAuthorizer()
     authorizer.add_user('user123', 'pass123', '.')
     handler = FTPHandler
     handler.authorizer = authorizer
-    server = ThreadedFTPServer(('', 2121), handler)
+    server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
     server.serve_forever()
 
 def start_ftp_button():
 	global ftp_server_process
-	ftp_server_process = multiprocessing.Process(target=ftpd,name='HTTPprocess')
-	ftp_server_process.start()
+	if ftp_server_process != None:
+			print("FTP server already started.")
+			pass
+	elif ftp_server_process == None:
+		# Name error means not defined. start a new server.
+		ftp_server_process = multiprocessing.Process(target=ftpd,name='FTPprocess')
+		ftp_server_process.start()
+		print("FTP Server process started")
+		global ftp_status
+		ftp_status = "UP"
 
 def stop_ftp_button():
 	global ftp_server_process
-	ftp_server_process.terminate()
-	print("FTPServer process terminated")
+	global ftp_status
+	if ftp_server_process == None:
+		print("No server to stop.")
+		pass
+	else:
+		ftp_server_process.terminate()
+		ftp_server_process = None
+		ftp_status = "Down"
+		print("FTPServer process terminated")
 
 
 def on_closing():
@@ -101,11 +136,15 @@ def on_closing():
 		except NameError:
 			# if no server process, skip. NameError if server process not started
 			pass
+		except:
+			pass
 
 		try:
 			ftp_server_process.terminate()
 		except NameError:
 			# if no server process, skip. NameError if server process not started
+			pass
+		except:
 			pass
 		window.destroy()
 
@@ -128,16 +167,29 @@ elif build_for == "windows":
 if build_for == "linux":
 	IPAddr1=network_list[1][1]
 	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
-	instruction_text = "\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 2121\nCommand in Linux: ftp %s 2121" % (IPAddr1,IPAddr1)
+	instruction_text = "\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 8021\nCommand in Linux: ftp %s 8021" % (IPAddr1,IPAddr1)
 
 elif build_for == "windows":
 	IPAddr1=network_list[0][1]
 	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
-	instruction_text = "\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 2121\nCommand in Linux: ftp %s 2121" % (IPAddr1,IPAddr1)
+	instruction_text = "\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 8021\nCommand in Linux: ftp %s 8021" % (IPAddr1,IPAddr1)
+
+
 
 
 window.title('Python Quick Network Tool - DJENGINEER')
 window.geometry("550x450")
+
+def update_text(instruction_text_widget):
+	global ftp_status
+	global http_status
+	status_text = "\nHTTP Server: %s\nFTP Server: %s"%(http_status,ftp_status)
+	instruction_text_widget.delete("1.0", "end")  # if you want to remove the old data
+	instruction_text_widget.insert(END, interface_details,"tag-right")
+	instruction_text_widget.insert(END, instruction_text,"tag-left")
+	instruction_text_widget.insert(END, status_text,"tag-left")
+
+status_text = "\nHTTP Server: %s\nFTP Server: %s"%(http_status,ftp_status)
 instruction_text_widget = Text(window, height=1, width=100)
 instruction_text_widget.tag_configure('tag-center', justify='center')
 instruction_text_widget.tag_configure('tag-right', justify='right')
@@ -145,9 +197,15 @@ instruction_text_widget.tag_configure('tag-left', justify='left')
 instruction_text_widget.pack(fill='both', expand=True,padx=20, pady=20,anchor="w")
 instruction_text_widget.insert(END, interface_details,"tag-right")
 instruction_text_widget.insert(END, instruction_text,"tag-left")
+instruction_text_widget.insert(END, status_text,"tag-left")
+
+
+instruction_text_widget.after(100, update_text(instruction_text_widget))
+
+
 start_http = Button(window, text="start HTTP Server (port 8000)",command=start_http_button)
 stop_http = Button(window, text="stop HTTP Server",command=stop_http_button)
-start_ftp = Button(window, text="start FTP Server user123:pass123 port 2121",command=start_ftp_button)
+start_ftp = Button(window, text="start FTP Server user123:pass123 port 8021",command=start_ftp_button)
 stop_ftp = Button(window, text="stop FTP server",command=stop_ftp_button)
 start_http.pack()
 stop_http.pack()
@@ -157,5 +215,8 @@ window.protocol("WM_DELETE_WINDOW", on_closing)
 
 
 
-if __name__ == "__main__":	
+if __name__ == "__main__":
+	if sys.platform.startswith('win'):
+		# On Windows calling this function is necessary.
+		multiprocessing.freeze_support()
 	window.mainloop()
