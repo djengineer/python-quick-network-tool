@@ -15,6 +15,8 @@ from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 from pyftpdlib.servers import ThreadedFTPServer
 
+from tkinter import messagebox
+
 import threading
 web_dir = os.path.join(os.path.dirname(__file__), './')
 os.chdir(web_dir)
@@ -67,19 +69,52 @@ def stop_ftp_button():
 
 
 window = Tk()
-label = Label(window, text="I am a label widget")
-start_http = Button(window, text="start Http port 8080",command=lambda:start_http_button())
-stop_http = Button(window, text="stop http server",command=lambda:stop_http_button())
+window.geometry("400x200")
 
-start_ftp = Button(window, text="start ftp server user123:pass123 port 2121",command=lambda:start_ftp_button())
-stop_ftp = Button(window, text="stop http server",command=lambda:stop_ftp_button())
+hostname=socket.gethostname()   
+IPAddr=socket.gethostbyname(hostname + ".local") 
+print("Your Computer Name is:"+hostname)   
+print("Your Computer IP Address is:"+IPAddr)   
+ip_label = Label(window, text="Your IP Address is: %s"%IPAddr)
 
+instruction_text = """
+Accessing HTTP server in browser: http://%s:8000
+
+"""
+
+instruction_label = Label(window, text="Accessing HTTP server in browser: http://%s:8000\n")
+
+start_http = Button(window, text="start HTTP Server (port 8000)",command=lambda:start_http_button())
+stop_http = Button(window, text="stop HTTP Server",command=lambda:stop_http_button())
+
+start_ftp = Button(window, text="start FTP Server user123:pass123 port 2121",command=lambda:start_ftp_button())
+stop_ftp = Button(window, text="stop FTP server",command=lambda:stop_ftp_button())
+
+
+def on_closing():
+	global http_server_process
+	global ftp_server_process
+	if messagebox.askokcancel("Quit", "Do you want to close all services and quit?"):
+		try:
+			http_server_process.terminate()
+		except NameError:
+			# if no server process, skip. NameError if server process not started
+			pass
+
+		try:
+			ftp_server_process.terminate()
+		except NameError:
+			# if no server process, skip. NameError if server process not started
+			pass
+		window.destroy()
+
+window.protocol("WM_DELETE_WINDOW", on_closing)
 
 #start_ftp = Button(window, text="start FTP server",command=ftp_server_start)
 #stop_ftp = Button(window, text="stop fto server",command=ftp_server_shutdown)
 
-
-label.pack()
+ip_label.pack()
+instruction_label.pack()
 start_http.pack()
 stop_http.pack()
 start_ftp.pack()
