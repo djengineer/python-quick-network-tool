@@ -34,6 +34,7 @@ python app.py
 ```python
 pip install -r requirements.txt
 pyinstaller -F --noconsole app.py -n py-quick-network-tool
+pyinstaller -F --noconsole app.py --upx-dir=./upx-3.96-win64/upx.exe -n py-quick-network-tool
 
 ```
 
