@@ -13,9 +13,9 @@ For when you need quick **HTTP** and **FTP** servers for file transfers.
 The tools are in the binaries folder. The windows binary may be flagged by anti-viruses as Trojan (AVG will do this). 
 
 ## Binaries MD5 Checksum
-py-quick-network-tool-ubuntu-64.bin: 03d9ae83ba0d13b5e0bea862f0d32c01
+py-quick-network-tool-ubuntu-64.bin: a9e0c14d3d18aae5ec148908b1e28cb0
 
-py-quick-network-tool-win-64.exe: a4de21c89c964938c0dfd8df75f996f8
+py-quick-network-tool-win-64.exe: 75899def3fcd9eb78dc0903aa76d3840
 
 
 # Running as script Windows or Linux
@@ -35,6 +35,7 @@ python app.py
 pip install -r requirements.txt
 pyinstaller -F --noconsole app.py -n py-quick-network-tool
 pyinstaller -F --noconsole app.py --upx-dir=./upx-3.96-win64/upx.exe -n py-quick-network-tool
+pyinstaller -F --noconsole app.py --upx-dir=./upx-3.96-amd64_linux/upx -n py-quick-network-tool.bin
 
 ```
 
