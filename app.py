@@ -95,7 +95,7 @@ def stop_http_button():
 
 def ftpd():
     authorizer = DummyAuthorizer()
-    authorizer.add_user('user123', 'pass123', '.')
+    authorizer.add_user('user123', 'pass123', '.', perm='elradfmwMT')
     handler = FTPHandler
     handler.authorizer = authorizer
     server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
