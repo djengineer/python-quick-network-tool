@@ -3,7 +3,7 @@ python-quick-network-tool
 
 Author: DJENGINEER
 
-For when you need quick **HTTP** and **FTP** servers for file transfers. 
+For when you need quick **HTTP** and **FTP** servers for file transfers. HTTP and FTP data transfers are not encrypted. Do not use if you require encryption.
 
 The IP address in the second section may differ due to different number of network adapters or adapter names. If you are using for local network, then use your local network ip address, which may start with 192.168.\*\*\*.\*\*\*
 
