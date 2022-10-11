@@ -32,10 +32,11 @@ import sys, os
 ################################
 # change uncomment the appropriate build_for when building
 #build_for ="linux"
-build_for = "linux"
-if build_for == "linux":
+
+build_for = os.name
+if build_for == "posix":
 	window = Tk()
-elif build_for == "windows":
+elif build_for == "nt":
 	window = HdpiTk()
 
 global application_path
@@ -152,24 +153,24 @@ network_info = psutil.net_if_addrs()
 #print(network_info)
 network_list = []
 interface_details = ""
-if build_for == "linux":
+if build_for == "posix":
 	for interface in network_info:
 		temp_string = interface+": "+network_info[interface][0][1] +"\n"
 		interface_details = interface_details + temp_string
 		network_list.append([interface,network_info[interface][0][1]])
-elif build_for == "windows":
+elif build_for == "nt":
 	for interface in network_info:
 		temp_string = interface+": "+network_info[interface][1][1] +"\n"
 		interface_details = interface_details + temp_string
 		network_list.append([interface,network_info[interface][1][1]])
 
 
-if build_for == "linux":
+if build_for == "posix":
 	IPAddr1=network_list[1][1]
 	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
 	instruction_text = "\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 8021\nCommand in Linux: ftp %s 8021" % (IPAddr1,IPAddr1)
 
-elif build_for == "windows":
+elif build_for == "nt":
 	IPAddr1=network_list[0][1]
 	#network_label = Entry(window, text=interface_details,  justify=RIGHT)
 	instruction_text = "\nAccessing HTTP server in browser: http://%s:8000\nAccessing FTP server:\nUsername: user123\nPassword: pass123\nPort: 8021\nCommand in Linux: ftp %s 8021" % (IPAddr1,IPAddr1)
@@ -178,7 +179,7 @@ elif build_for == "windows":
 
 
 window.title('Python Quick Network Tool - DJENGINEER')
-window.geometry("550x450")
+window.geometry("550x500")
 
 
 
