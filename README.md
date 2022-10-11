@@ -7,8 +7,6 @@ For when you need quick **HTTP** and **FTP** servers for file transfers. HTTP an
 
 The IP address in the second section may differ due to different number of network adapters or adapter names. If you are using for local network, then use your local network ip address, which may start with 192.168.\*\*\*.\*\*\*
 
-Non-standard ports are used so that we do not need administrative permissions to run the binaries.
-
 ![python quick network tool](https://github.com/djengineer/python-quick-network-tool/blob/main/screenshot.jpg?raw=true)
 
 
@@ -24,11 +22,11 @@ py-quick-network-tool-win-64.exe: 75899def3fcd9eb78dc0903aa76d3840
 
 # Running as script Windows or Linux
 
-From v1.2.1, the script will detect if the OS is posix(for linux) or nt(for windows). Look at os.name here https://docs.python.org/3/library/os.html.
-The difference in implementation is because Windows will use the https://pypi.org/project/hdpitkinter/ for proper scaling to avoid blur text. PSUTIL list sequence is also different when listing network interfaces
+Uncomment "build_for" when building for windows or linux.
+The difference is windows will use the https://pypi.org/project/hdpitkinter/ for proper scaling to avoid blur text. PSUTIL list sequence is also different when listing network interfaces
 
 ```python
-# in your Python3 virtual environment.
+# create Python3 virtual environment first.
 pip install -r requirements.txt
 python app.py
 
