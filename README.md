@@ -9,7 +9,10 @@ HTTPS and SFTP is available from V1.2.2. Do not use on production servers.
 
 The IP address in the second section may differ due to different number of network adapters or adapter names. If you are using for local network, then use your local network ip address, which may start with 192.168.\*\*\*.\*\*\*
 
+### Regarding HTTPS and SFTP
 If you run HTTPS server instead of HTTP, specify **https://** when accessing the url like this **https://[ip_address]:8000**.
+
+If you run TLS/SSL enabled HTTP and FTP, your browser and FTP client may show a certificate warning. You may accept the warning and proceed with the connection.
 
 ![python quick network tool](https://github.com/djengineer/python-quick-network-tool/blob/main/screenshot%20v1.2.2.jpg?raw=true)
 
@@ -56,6 +59,8 @@ openssl req -nodes -new -x509  -keyout key.pem -out cert.pem
 https://pyftpdlib.readthedocs.io/en/latest/tutorial.html#ftps-ftp-over-tls-ssl-server
 
 We use the demo certificate referenced in the documentation. https://github.com/giampaolo/pyftpdlib/blob/master/demo/keycert.pem
+
+If you want to create a new certificate, use the following commands.
 
 ```bash
 # combining both private key and certificate into one pem file
