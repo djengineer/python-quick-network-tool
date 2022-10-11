@@ -15,9 +15,9 @@ The IP address in the second section may differ due to different number of netwo
 The tools are in the binaries folder. The windows binary may be flagged by anti-viruses as Trojan (AVG will do this). 
 
 ## v1.3 Binaries MD5 Checksum
-py-quick-network-tool-ubuntu-64.bin: cef761af7a2b8784331632d670218a6e
+py-quick-network-tool-ubuntu-64.bin: 92d5c2d69462696fc6ce5738d858528e
 
-py-quick-network-tool-win-64.exe: 75899def3fcd9eb78dc0903aa76d3840
+py-quick-network-tool-win-64.exe: 968ee1b952db4664c55479d3357f6150
 
 
 # Running as script Windows or Linux
