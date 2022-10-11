@@ -28,7 +28,7 @@ From v1.2.1, the script will detect if the OS is posix(for linux) or nt(for wind
 The difference in implementation is because Windows will use the https://pypi.org/project/hdpitkinter/ for proper scaling to avoid blur text. PSUTIL list sequence is also different when listing network interfaces
 
 ```python
-# create Python3 virtual environment first.
+# in your Python3 virtual environment.
 pip install -r requirements.txt
 python app.py
 
