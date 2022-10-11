@@ -24,8 +24,8 @@ py-quick-network-tool-win-64.exe: 75899def3fcd9eb78dc0903aa76d3840
 
 # Running as script Windows or Linux
 
-Uncomment "build_for" when building for windows or linux.
-The difference is windows will use the https://pypi.org/project/hdpitkinter/ for proper scaling to avoid blur text. PSUTIL list sequence is also different when listing network interfaces
+From v1.2.1, the script will detect if the OS is posix(for linux) or nt(for windows). Look at os.name here https://docs.python.org/3/library/os.html.
+The difference in implementation is because Windows will use the https://pypi.org/project/hdpitkinter/ for proper scaling to avoid blur text. PSUTIL list sequence is also different when listing network interfaces
 
 ```python
 # create Python3 virtual environment first.
