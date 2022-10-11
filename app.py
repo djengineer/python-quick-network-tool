@@ -11,16 +11,19 @@ import multiprocessing
 
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.handlers import TLS_FTPHandler
 from pyftpdlib.servers import FTPServer
 from pyftpdlib.servers import ThreadedFTPServer
 
+
 from tkinter import messagebox
 from tkinter import *
+
 from hdpitkinter import HdpiTk
 import psutil
 
 import threading
-
+import ssl
 
 #web_dir = os.path.join(os.path.dirname(__file__), './')
 #os.chdir(web_dir)
@@ -69,18 +72,39 @@ def httpd(server_class=HTTPServer, handler_class=MyHttpHandler):
 	httpd = server_class(server_address, handler_class)
 	httpd.serve_forever()
 
+def httpsd(server_class=HTTPServer, handler_class=MyHttpHandler):
+	server_address = ('', 8000)
+	httpd = server_class(server_address, handler_class)
+	httpd.socket = ssl.wrap_socket (httpd.socket, 
+        keyfile="./certificates/key.pem", 
+        certfile='./certificates/cert.pem', server_side=True)
+	httpd.serve_forever()
+
 def start_http_button():
 	global http_server_process
 	global http_status
 	if http_server_process != None:
-		print("HTTP server already started.")
+		print("HTTP/HTTPS server already started.")
 		pass
 	elif http_server_process == None:
 		# Name error means not defined. start a new server.
 		http_server_process = multiprocessing.Process(target=httpd,name='HTTPprocess')
 		http_server_process.start()
 		http_status = "STARTED"
-		print("HTTPServer process started")
+		print("HTTP server process started")
+
+def start_https_button():
+	global http_server_process
+	global http_status
+	if http_server_process != None:
+		print("HTTP/HTTPS server already started.")
+		pass
+	elif http_server_process == None:
+		# Name error means not defined. start a new server.
+		http_server_process = multiprocessing.Process(target=httpsd,name='HTTPSprocess')
+		http_server_process.start()
+		http_status = "STARTED"
+		print("HTTPS server process started")
 
 def stop_http_button():
 	global http_server_process
@@ -92,12 +116,22 @@ def stop_http_button():
 		http_server_process.terminate()
 		http_server_process = None
 		http_status = "STOPPED"
-		print("HTTPServer process terminated")
+		print("HTTP server process terminated")
 
 def ftpd():
     authorizer = DummyAuthorizer()
     authorizer.add_user('user123', 'pass123', '.', perm='elradfmwMT')
     handler = FTPHandler
+    #handler = TLS_FTPHandler
+    #handler.certfile = 'keycert.pem'
+    handler.authorizer = authorizer
+    server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
+    server.serve_forever()
+def ftpsd():
+    authorizer = DummyAuthorizer()
+    authorizer.add_user('user123', 'pass123', '.', perm='elradfmwMT')
+    handler = TLS_FTPHandler
+    handler.certfile = './certificates/keycert_ftp.pem'
     handler.authorizer = authorizer
     server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
     server.serve_forever()
@@ -115,6 +149,19 @@ def start_ftp_button():
 		global ftp_status
 		ftp_status = "STARTED"
 
+def start_ftps_button():
+	global ftp_server_process
+	if ftp_server_process != None:
+			print("FTP server already started.")
+			pass
+	elif ftp_server_process == None:
+		# Name error means not defined. start a new server.
+		ftp_server_process = multiprocessing.Process(target=ftpsd,name='FTPprocess')
+		ftp_server_process.start()
+		print("FTPS Server process started")
+		global ftp_status
+		ftp_status = "STARTED"
+
 def stop_ftp_button():
 	global ftp_server_process
 	global ftp_status
@@ -125,7 +172,7 @@ def stop_ftp_button():
 		ftp_server_process.terminate()
 		ftp_server_process = None
 		ftp_status = "STOPPED"
-		print("FTPServer process terminated")
+		print("FTP server process terminated")
 
 
 def on_closing():
@@ -179,9 +226,7 @@ elif build_for == "nt":
 
 
 window.title('Python Quick Network Tool - DJENGINEER')
-window.geometry("550x500")
-
-
+window.geometry("550x600")
 
 
 instruction_text_widget = Text(window, height=1, width=100)
@@ -193,26 +238,64 @@ instruction_text_widget.insert(END, interface_details,"tag-right")
 instruction_text_widget.insert(END, instruction_text,"tag-left")
 
 global status_text
-status_text = "HTTP Server: %s\nFTP Server: %s"%(http_status,ftp_status)
+status_text = "HTTP / HTTPS Server: %s\nFTP / SFTP Server: %s" % (http_status,ftp_status)
 status_text_widget = Text(window, height=3, width=100)
 status_text_widget.pack(fill='both',expand=False,padx=20, pady=20,anchor="w")
 status_text_widget.insert(END, status_text,"tag-left")
 
+
+
 def update_status():
 	global status_text_widget
 	status_text_widget.delete('1.0', END)
-	status_text = "HTTP Server: %s\nFTP Server: %s"%(http_status,ftp_status)
+	status_text = "HTTP / HTTPS Server: %s\nFTP / SFTP Server: %s" % (http_status,ftp_status)
 	status_text_widget.insert(END, status_text,"tag-left")
+	status_text_widget.tag_config("stopped", foreground="red")
+	status_text_widget.tag_config("started", foreground="green")
+	if http_status == "STOPPED":
+		status_text_widget.tag_add("stopped", "1.20", "1.28")
+	elif http_status == "STARTED":
+		status_text_widget.tag_add("started", "1.20", "1.28")
+	if ftp_status == "STOPPED":
+		status_text_widget.tag_add("stopped", "2.19", "2.28")
+	elif ftp_status == "STARTED":
+		status_text_widget.tag_add("started", "2.19", "2.28")
 	window.after(1000, update_status) # every second...
 
+# dev note
+# use partial for passing args to tkinter command https://stackoverflow.com/questions/6920302/how-to-pass-arguments-to-a-button-command-in-tkinter
+# or lambda?
+
+# tkinter positioning
+# https://stackoverflow.com/questions/51631105/how-to-position-several-widgets-side-by-side-on-one-line-with-tkinter
+
+
+
 start_http = Button(window, text="start HTTP Server (port 8000)",command=start_http_button)
-stop_http = Button(window, text="stop HTTP Server",command=stop_http_button)
+start_https = Button(window, text="start HTTPS Server (port 8000)",command=start_https_button)
 start_ftp = Button(window, text="start FTP Server user123:pass123 port 8021",command=start_ftp_button)
-stop_ftp = Button(window, text="stop FTP server",command=stop_ftp_button)
+start_ftps = Button(window, text="start SFTP Server user123:pass123 port 8021",command=start_ftps_button)
+stop_http = Button(window, text="stop HTTP/HTTPS Server",command=stop_http_button)
+stop_ftp = Button(window, text="stop FTP/SFTP server",command=stop_ftp_button)
+
+
+#start_http.grid(column=0, row=0) 
+#start_https.grid(column=1, row=0) 
+#stop_http.grid(column=2, row=0) 
+
+#start_ftp.grid(column=0, row=1) 
+#start_ftps.grid(column=1, row=1) 
+#stop_ftp.grid(column=2, row=1) 
+
+
 start_http.pack()
-stop_http.pack()
+start_https.pack()
 start_ftp.pack()
+start_ftps.pack()
+stop_http.pack()
 stop_ftp.pack()
+
+
 window.protocol("WM_DELETE_WINDOW", on_closing)
 
 
