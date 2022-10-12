@@ -37,7 +37,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 #we need the spec file to include the data such as certificates
-*.spec
+#*.spec
 
 # Installer logs
 pip-log.txt
