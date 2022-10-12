@@ -23,12 +23,13 @@ The tools are in the binaries folder. The windows binary may be flagged by anti-
 
 ## v1.2.3 Binaries MD5 Checksum
 
-py-quick-network-tool-ubuntu-64.bin: f7a03549cbe79fb7759f031303002ca7
+py-quick-network-tool-ubuntu-64-v-1-2-3.bin: f7a03549cbe79fb7759f031303002ca7
+py-quick-network-tool-win-64-v-1-2-3.exe: 9366aa5b7bfd7c5765c2ce41d759543a
 
 ## v1.2.2 Binaries MD5 Checksum
-py-quick-network-tool-ubuntu-64.bin: 92d5c2d69462696fc6ce5738d858528e
+py-quick-network-tool-ubuntu-64-v-1-2-2.bin: 92d5c2d69462696fc6ce5738d858528e
 
-py-quick-network-tool-win-64.exe: 968ee1b952db4664c55479d3357f6150
+py-quick-network-tool-win-64-v-1-2-2.exe: 968ee1b952db4664c55479d3357f6150
 
 
 # Running as script Windows or Linux
