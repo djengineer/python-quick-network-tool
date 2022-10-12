@@ -53,6 +53,15 @@ if getattr(sys, 'frozen', False):
 else:
 	application_path = os.path.dirname(os.path.abspath(__file__))
 
+
+global certdir
+if hasattr(sys, "_MEIPASS"):
+	# this is for pyinstaller's bundled file
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+else:
+	# if this is not for bundled file, just for the script
+    base_dir = './'
+
 global http_server_process
 global ftp_server_process
 global http_status
@@ -73,11 +82,12 @@ def httpd(server_class=HTTPServer, handler_class=MyHttpHandler):
 	httpd.serve_forever()
 
 def httpsd(server_class=HTTPServer, handler_class=MyHttpHandler):
+	global certdir
 	server_address = ('', 8000)
 	httpd = server_class(server_address, handler_class)
 	httpd.socket = ssl.wrap_socket (httpd.socket, 
-        keyfile=application_path + "/certificates/key.pem", 
-        certfile=application_path + '/certificates/cert.pem', server_side=True)
+        keyfile=base_dir + "/certificates/key.pem", 
+        certfile=base_dir + '/certificates/cert.pem', server_side=True)
 	httpd.serve_forever()
 
 def start_http_button():
@@ -131,7 +141,7 @@ def ftpsd():
     authorizer = DummyAuthorizer()
     authorizer.add_user('user123', 'pass123', '.', perm='elradfmwMT')
     handler = TLS_FTPHandler
-    handler.certfile = application_path+'/certificates/keycert_ftp.pem'
+    handler.certfile = base_dir + '/certificates/keycert_ftp.pem'
     handler.authorizer = authorizer
     server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
     server.serve_forever()
@@ -228,12 +238,16 @@ elif build_for == "nt":
 window.title('Python Quick Network Tool - DJENGINEER')
 window.geometry("550x600")
 
+topbar_widget = Label(window, text="Python Quick Network Tool ©DJENGINEER 2022 - V1.2.3")
+topbar_widget.pack(fill='both', expand=False,anchor="w")
+
+
 
 instruction_text_widget = Text(window, height=1, width=100)
 instruction_text_widget.tag_configure('tag-center', justify='center')
 instruction_text_widget.tag_configure('tag-right', justify='right')
 instruction_text_widget.tag_configure('tag-left', justify='left')
-instruction_text_widget.pack(fill='both', expand=True,padx=20, pady=20,anchor="w")
+instruction_text_widget.pack(fill='both', expand=True,padx=10, pady=10,anchor="w")
 instruction_text_widget.insert(END, interface_details,"tag-right")
 instruction_text_widget.insert(END, instruction_text,"tag-left")
 

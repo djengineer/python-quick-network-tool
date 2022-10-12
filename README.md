@@ -51,8 +51,8 @@ pyinstaller -F --noconsole app.py -n py-quick-network-tool
 pyinstaller -F --noconsole app.py --upx-dir="./upx-3.96-win64/" -n py-quick-network-tool
 pyinstaller -F --noconsole app.py --upx-dir="./upx-3.96-amd64_linux/" -n py-quick-network-tool
 
-pyinstaller -F --noconsole py-quick-network-tool.spec --upx-dir="./upx-3.96-win64/" -n py-quick-network-tool
-pyinstaller -F --noconsole py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/" -n py-quick-network-tool
+pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-win64/"
+pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/"
 
 ```
 
