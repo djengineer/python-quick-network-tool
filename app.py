@@ -76,8 +76,8 @@ def httpsd(server_class=HTTPServer, handler_class=MyHttpHandler):
 	server_address = ('', 8000)
 	httpd = server_class(server_address, handler_class)
 	httpd.socket = ssl.wrap_socket (httpd.socket, 
-        keyfile="./certificates/key.pem", 
-        certfile='./certificates/cert.pem', server_side=True)
+        keyfile=application_path + "/certificates/key.pem", 
+        certfile=application_path + '/certificates/cert.pem', server_side=True)
 	httpd.serve_forever()
 
 def start_http_button():
@@ -131,7 +131,7 @@ def ftpsd():
     authorizer = DummyAuthorizer()
     authorizer.add_user('user123', 'pass123', '.', perm='elradfmwMT')
     handler = TLS_FTPHandler
-    handler.certfile = './certificates/keycert_ftp.pem'
+    handler.certfile = application_path+'/certificates/keycert_ftp.pem'
     handler.authorizer = authorizer
     server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
     server.serve_forever()
