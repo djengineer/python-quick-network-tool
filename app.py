@@ -240,7 +240,7 @@ instruction_text_widget.insert(END, instruction_text,"tag-left")
 global status_text
 status_text = "HTTP / HTTPS Server: %s\nFTP / SFTP Server: %s" % (http_status,ftp_status)
 status_text_widget = Text(window, height=3, width=100)
-status_text_widget.pack(fill='both',expand=False,padx=20, pady=20,anchor="w")
+status_text_widget.pack(fill='both',expand=False,padx=20, pady=2,anchor="w")
 status_text_widget.insert(END, status_text,"tag-left")
 
 
@@ -269,14 +269,19 @@ def update_status():
 # tkinter positioning
 # https://stackoverflow.com/questions/51631105/how-to-position-several-widgets-side-by-side-on-one-line-with-tkinter
 
+leftframe = Frame(window)
+leftframe.pack(side=LEFT)
+  
+rightframe = Frame(window)
+rightframe.pack(side=RIGHT)
 
+start_http = Button(leftframe, text="start HTTP Server (port 8000)",command=start_http_button)
+start_https = Button(leftframe, text="start HTTPS Server (port 8000)",command=start_https_button)
+stop_http = Button(leftframe, text="stop HTTP/HTTPS Server",command=stop_http_button)
 
-start_http = Button(window, text="start HTTP Server (port 8000)",command=start_http_button)
-start_https = Button(window, text="start HTTPS Server (port 8000)",command=start_https_button)
-start_ftp = Button(window, text="start FTP Server user123:pass123 port 8021",command=start_ftp_button)
-start_ftps = Button(window, text="start SFTP Server user123:pass123 port 8021",command=start_ftps_button)
-stop_http = Button(window, text="stop HTTP/HTTPS Server",command=stop_http_button)
-stop_ftp = Button(window, text="stop FTP/SFTP server",command=stop_ftp_button)
+start_ftp = Button(rightframe, text="start FTP Server user123:pass123 port 8021",command=start_ftp_button)
+start_ftps = Button(rightframe, text="start SFTP Server user123:pass123 port 8021",command=start_ftps_button)
+stop_ftp = Button(rightframe, text="stop FTP/SFTP server",command=stop_ftp_button)
 
 
 #start_http.grid(column=0, row=0) 
@@ -288,12 +293,15 @@ stop_ftp = Button(window, text="stop FTP/SFTP server",command=stop_ftp_button)
 #stop_ftp.grid(column=2, row=1) 
 
 
-start_http.pack()
-start_https.pack()
-start_ftp.pack()
-start_ftps.pack()
-stop_http.pack()
-stop_ftp.pack()
+start_http.pack(padx=2, pady=2)
+start_https.pack(padx=2, pady=2)
+stop_http.pack(padx=2, pady=2)
+
+start_ftp.pack(padx=2, pady=2)
+start_ftps.pack(padx=2, pady=2)
+stop_ftp.pack(padx=2, pady=2)
+
+
 
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
