@@ -2,6 +2,8 @@
 
 v1.2.3
 - Rearranged HTTP and FTP buttons
+- Fixed pyinstaller certificate pathing. HTTPS and SFTP fixed
+- Error handling if the server cannot be started because of duplicate processes.
 
 v1.2.2
 - FTP server is now enabled with TLS. Certificate used is from https://github.com/giampaolo/pyftpdlib/blob/master/demo/keycert.pem given by the official pyftpd documentation https://pyftpdlib.readthedocs.io/en/latest/tutorial.html#ftps-ftp-over-tls-ssl-server

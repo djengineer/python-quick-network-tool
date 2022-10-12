@@ -23,8 +23,8 @@ The tools are in the binaries folder. The windows binary may be flagged by anti-
 
 ## v1.2.3 Binaries MD5 Checksum
 
-py-quick-network-tool-ubuntu-64-v-1-2-3.bin: f7a03549cbe79fb7759f031303002ca7
-py-quick-network-tool-win-64-v-1-2-3.exe: 9366aa5b7bfd7c5765c2ce41d759543a
+py-quick-network-tool-ubuntu-64-v-1-2-3.bin: 1deef0e2afb77f27a9f782df7e20e287
+py-quick-network-tool-win-64-v-1-2-3.exe: 4c3dce6e998d4d4c142989b142f12a06
 
 ## v1.2.2 Binaries MD5 Checksum
 py-quick-network-tool-ubuntu-64-v-1-2-2.bin: 92d5c2d69462696fc6ce5738d858528e
@@ -50,6 +50,9 @@ pip install -r requirements.txt
 pyinstaller -F --noconsole app.py -n py-quick-network-tool
 pyinstaller -F --noconsole app.py --upx-dir="./upx-3.96-win64/" -n py-quick-network-tool
 pyinstaller -F --noconsole app.py --upx-dir="./upx-3.96-amd64_linux/" -n py-quick-network-tool
+
+pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-win64/"
+pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/"
 
 ```
 
