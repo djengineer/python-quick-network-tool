@@ -3,8 +3,7 @@ from tkinter import *
 import threading
 import http.server
 import socket 
-from http.server import HTTPServer, SimpleHTTPRequestHandler, BaseHTTPRequestHandler
-import http.server
+from http.server import HTTPServer, SimpleHTTPRequestHandler, BaseHTTPRequestHandler, ThreadingHTTPServer
 import http.server
 
 import multiprocessing
@@ -76,12 +75,13 @@ class MyHttpHandler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=application_path, **kwargs)
 
 
-def httpd(server_class=HTTPServer, handler_class=MyHttpHandler):
+# HTTPServer for non-threaded. ThreadingHTTPServer for threaded.
+def httpd(server_class=ThreadingHTTPServer, handler_class=MyHttpHandler):
 	server_address = ('', 8000)
 	httpd = server_class(server_address, handler_class)
 	httpd.serve_forever()
 
-def httpsd(server_class=HTTPServer, handler_class=MyHttpHandler):
+def httpsd(server_class=ThreadingHTTPServer, handler_class=MyHttpHandler):
 	global certdir
 	server_address = ('', 8000)
 	httpd = server_class(server_address, handler_class)
