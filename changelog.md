@@ -1,5 +1,10 @@
 # Change Log
 
+v1.2.4
+- Changed HTTP from Simple to Threaded
+- Included PyTest for testing. Does not include testing for concurrent request.
+
+
 v1.2.3
 - Rearranged HTTP and FTP buttons
 - Fixed pyinstaller certificate pathing. HTTPS and SFTP fixed
