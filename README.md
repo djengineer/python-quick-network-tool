@@ -19,12 +19,17 @@ If you run TLS/SSL enabled HTTP and FTP, your browser and FTP client may show a 
 
 
 # Binaries
-The tools are in the binaries folder. The windows binary may be flagged by anti-viruses as Trojan (AVG will do this). From V1.2.2, the binaries are properly packed with UPX. Windows may give a warning running an unknown .exe file. 
+The tools are in the binaries folder. The windows binary may be flagged by anti-viruses as Trojan (AVG will do this). From V1.2.2, the binaries are properly packed with UPX. Windows may give a warning when running an unknown .exe file. 
+
+## v1.2.4 Binaries MD5 Checksum
+
+py-quick-network-tool-ubuntu-64-v1-2-4.bin: 4c189899b24bb86ec5b4d4af1e9ca856
+py-quick-network-tool-win-64-v1-2-4.exe: f2fc04441ca82bd06ad55a51e2f94a8c
 
 ## v1.2.3 Binaries MD5 Checksum
 
-py-quick-network-tool-ubuntu-64-v-1-2-4.bin: 52fdbfc231cd16f21f15e53c7fd57989
-py-quick-network-tool-win-64-v-1-2-3.exe: 4c3dce6e998d4d4c142989b142f12a06
+py-quick-network-tool-ubuntu-64-v1-2-3.bin: 1deef0e2afb77f27a9f782df7e20e287
+py-quick-network-tool-win-64-v1-2-3.exe: 4c3dce6e998d4d4c142989b142f12a06
 
 ## v1.2.2 Binaries MD5 Checksum
 py-quick-network-tool-ubuntu-64-v-1-2-2.bin: 92d5c2d69462696fc6ce5738d858528e

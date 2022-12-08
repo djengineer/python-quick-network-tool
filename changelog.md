@@ -1,7 +1,7 @@
 # Change Log
 
 v1.2.4
-- Changed HTTP from Simple to Threaded
+- Changed HTTP server from Simple to Threaded to support concurrent requests.
 - Included PyTest for testing. Does not include testing for concurrent request.
 
 
