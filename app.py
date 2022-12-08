@@ -29,6 +29,7 @@ import ssl
 
 import sys, os
 
+version_number = "1.2.4"
 ################################
 ##### Windows or Linux #########
 ################################
@@ -238,7 +239,7 @@ elif build_for == "nt":
 window.title('Python Quick Network Tool - DJENGINEER')
 window.geometry("550x600")
 
-topbar_widget = Label(window, text="Python Quick Network Tool ©DJENGINEER 2022 - V1.2.3")
+topbar_widget = Label(window, text="Python Quick Network Tool ©DJENGINEER 2022 - " + version_number)
 topbar_widget.pack(fill='both', expand=False,anchor="w")
 
 
