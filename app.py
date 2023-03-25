@@ -144,6 +144,9 @@ def ftpsd():
     handler = TLS_FTPHandler
     handler.certfile = base_dir + '/certificates/keycert_ftp.pem'
     handler.authorizer = authorizer
+    # requires SSL for both control and data channel
+    handler.tls_control_required = True
+    handler.tls_data_required = True
     server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
     server.serve_forever()
 
