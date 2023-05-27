@@ -64,6 +64,12 @@ pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/"
 
 [Linux] Current binary(v1.2.4) is compiled with GLIBC 2.35. New Ubuntu releases(2023) features GLIBC 2.36 and above.
 
+# Building with Nuitka(Linux)
+```
+pip install nuitka
+sudo apt install python3-dev patchelf
+python -m nuitka --enable-plugin=tk-inter --standalone --plugin-enable=upx --upx-binary="./upx-3.96-amd64_linux/" app.py
+```
 
 # Certificates
 ## HTTPS
