@@ -60,6 +60,10 @@ pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-win64/"
 pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/"
 
 ```
+# Building notes
+
+[Linux] Current binary(v1.2.4) is compiled with GLIBC 2.35. New Ubuntu releases(2023) features GLIBC 2.36 and above.
+
 
 # Certificates
 ## HTTPS
@@ -82,9 +86,12 @@ cat cert.pem key.pem > server.includesprivatekey.pem
 # change the name to the appropriate ftp cert name in the codes
 ```
 
+
+
 # DEV STATUS
 
 Python script and binaries app.py works well in both windows and linux.
+
 
 
 
