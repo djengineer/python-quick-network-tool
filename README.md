@@ -64,6 +64,23 @@ pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/"
 
 [Linux] Current binary(v1.2.4) is compiled with GLIBC 2.35. New Ubuntu releases(2023) features GLIBC 2.36 and above.
 
+If spec file is corrupted or accidentally replaced, we need to add certificate files into the build in the spec file
+```
+block_cipher = None
+
+added_files = [
+    ('./certificates', '/certificates'),
+    ]
+
+a = Analysis(
+    ['app.py'],
+    pathex=[],
+    binaries=[],
+    ...,
+    ...
+```
+
+
 # Building with Nuitka(Linux)
 ```
 pip install nuitka
