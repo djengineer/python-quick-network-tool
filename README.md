@@ -88,14 +88,6 @@ a = Analysis(
     ...
 ```
 
-
-# Building with Nuitka(Linux)
-```
-pip install nuitka
-sudo apt install python3-dev patchelf
-python -m nuitka --enable-plugin=tk-inter --standalone --plugin-enable=upx --upx-binary="./upx-3.96-amd64_linux/" app.py
-```
-
 # Certificates
 ## HTTPS
 To generate your own certificate for HTTPS, use the following line.
