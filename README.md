@@ -50,6 +50,9 @@ python app.py
 ```
 
 # Building from source
+
+Use py-quick-network-tool.spec where possible. Ensure certificates folder are added correctly
+
 ```python
 pip install -r requirements.txt
 pyinstaller -F --noconsole app.py -n py-quick-network-tool
