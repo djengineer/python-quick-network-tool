@@ -54,7 +54,7 @@ python app.py
 pip install -r requirements.txt
 pyinstaller -F --noconsole app.py -n py-quick-network-tool
 pyinstaller -F --noconsole app.py --upx-dir="./upx-3.96-win64/" -n py-quick-network-tool
-pyinstaller -F --noconsole app.py --upx-dir="./upx-3.96-amd64_linux/" -n py-quick-network-tool
+pyinstaller -F --noconsole --add-data './certificates':'/certificates' app.py --upx-dir="./upx-3.96-amd64_linux/" -n py-quick-network-tool
 
 pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-win64/"
 pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/"
@@ -76,6 +76,7 @@ a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
+    datas=added_files,
     ...,
     ...
 ```
