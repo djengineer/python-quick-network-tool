@@ -117,7 +117,11 @@ cat cert.pem key.pem > server.includesprivatekey.pem
 # change the name to the appropriate ftp cert name in the codes
 ```
 
+# Compatibility
 
+- Python 3.10.6
+- Does not work with Python >= 3.11.0
+- V1.2.4 Linux binary compiled with GLIBC 2.35. You can check your version with `ldd --version`
 
 # DEV STATUS
 
