@@ -55,12 +55,16 @@ Use py-quick-network-tool.spec where possible. Ensure certificates folder are ad
 
 ```python
 pip install -r requirements.txt
-pyinstaller -F --noconsole app.py -n py-quick-network-tool
-pyinstaller -F --noconsole app.py --upx-dir="./upx-3.96-win64/" -n py-quick-network-tool
-pyinstaller -F --noconsole --add-data './certificates':'/certificates' app.py --upx-dir="./upx-3.96-amd64_linux/" -n py-quick-network-tool
 
 pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-win64/"
 pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/"
+
+# untested / may change spec file.
+pyinstaller -F --noconsole --add-data './certificates':'/certificates' app.py -n py-quick-network-tool
+pyinstaller -F --noconsole --add-data './certificates':'/certificates' app.py --upx-dir="./upx-3.96-win64/" -n py-quick-network-tool
+pyinstaller -F --noconsole --add-data './certificates':'/certificates' app.py --upx-dir="./upx-3.96-amd64_linux/" -n py-quick-network-tool
+
+
 
 ```
 # Building notes
