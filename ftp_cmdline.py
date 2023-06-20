@@ -40,6 +40,8 @@ def ftpd():
     #handler = TLS_FTPHandler
     #handler.certfile = 'keycert.pem'
     handler.authorizer = authorizer
+    # set passive ports. useful for cloud ftp
+    handler.passive_ports = range(60000, 65535)
     server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
     server.serve_forever()
 
@@ -52,6 +54,8 @@ def ftpsd():
     # requires SSL for both control and data channel
     handler.tls_control_required = True
     handler.tls_data_required = True
+    # set passive ports. useful for cloud ftp
+    handler.passive_ports = range(60000, 65535)
     server = ThreadedFTPServer(('0.0.0.0', 8021), handler)
     server.serve_forever()
 
