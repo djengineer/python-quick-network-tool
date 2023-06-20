@@ -105,7 +105,7 @@ If you want to create a new certificate, use the following commands.
 ```bash
 # combining both private key and certificate into one pem file
 openssl req -nodes -new -x509  -keyout key.pem -out cert.pem
-cat cert.pem key.pem > server.includesprivatekey.pem
+cat cert.pem key.pem > keycert_ftp.pem
 # change the name to the appropriate ftp cert name in the codes
 ```
 
