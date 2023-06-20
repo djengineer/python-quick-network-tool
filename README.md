@@ -59,14 +59,26 @@ pip install -r requirements.txt
 pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-win64/"
 pyinstaller py-quick-network-tool.spec --upx-dir="./upx-3.96-amd64_linux/"
 
-# untested / may change spec file.
+# running these will change the spec files
 pyinstaller -F --noconsole --add-data './certificates':'/certificates' app.py -n py-quick-network-tool
 pyinstaller -F --noconsole --add-data './certificates':'/certificates' app.py --upx-dir="./upx-3.96-win64/" -n py-quick-network-tool
 pyinstaller -F --noconsole --add-data './certificates':'/certificates' app.py --upx-dir="./upx-3.96-amd64_linux/" -n py-quick-network-tool
 
+```
 
+### To compile the FTP Commandline py file
+```python
+pip install -r requirements.txt
+
+pyinstaller py-ftp-cmdline.spec --upx-dir="./upx-3.96-win64/"
+pyinstaller py-ftp-cmdline.spec --upx-dir="./upx-3.96-amd64_linux/"
+
+# running these will change the spec files
+pyinstaller -F --noconsole --add-data './certificates':'/certificates' ftp_cmdline.py --upx-dir="./upx-3.96-win64/" -n py-ftp-cmdline
+pyinstaller -F --noconsole --add-data './certificates':'/certificates' ftp_cmdline.py --upx-dir="./upx-3.96-amd64_linux/" -n py-ftp-cmdline
 
 ```
+
 # Building notes
 
 [Linux] Current binary(v1.2.4) is compiled with GLIBC 2.35. New Ubuntu releases(2023) features GLIBC 2.36 and above.
@@ -109,15 +121,24 @@ cat cert.pem key.pem > keycert_ftp.pem
 # change the name to the appropriate ftp cert name in the codes
 ```
 
+We can use the `gen_new_cert.sh` instead to do it for us automatically.
+This will run the above 2 commands to update the FTP and HTTPS certificates.
+
 # Compatibility
 
 - Python 3.10.6
 - Does not work with Python >= 3.11.0
 - V1.2.4 Linux binary compiled with GLIBC 2.35. You can check your version with `ldd --version`
 
-# DEV STATUS
+# Deploying on Cloud
 
-Python script and binaries app.py works well in both windows and linux.
+For fast FTP to use in a cloud environment, use the ftp_cmdline.py script/binary.
+Set up the venv, and `pip install -r requirements.txt` as usual.
+
+In the FTP script, and app.py, FTP has `handler.passive_ports = range(60000, 65535)`
+We can simply reduce it to `handler.passive_ports = range(60000, 60001)` and open a TCP port `60000` inbound rule in Security Group settings.
+
+We could just open from 60000 to 65535, but it is bad security to open so many unused ports.
 
 
 
