@@ -99,6 +99,11 @@ a = Analysis(
     ...,
     ...
 ```
+## If using pyenv for python, we need to share resources with OS
+For ubuntu:
+```
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.6
+```
 
 # Certificates
 ## HTTPS
